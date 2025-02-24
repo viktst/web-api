@@ -9,11 +9,11 @@ namespace Domain.Entities
 {
     public class CompanyEntity
     {
-        [Key]
+        [Key] // Marks this property as the primary key
         public int CompanyId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Required] // Ensures the company name is provided
+        [MaxLength(100)] // Limits the length of the company name
         public string CompanyName { get; set; }
     }
 }

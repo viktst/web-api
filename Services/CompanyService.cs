@@ -17,12 +17,15 @@ namespace Services
         public CompanyService(ICompanyRepository companyRepository) =>
             this.companyRepository = companyRepository;
 
+        // Create a company
         public async Task<CompanyEntity> CreateCompanyAsync(CompanyDTO request) =>
             await companyRepository.CreateAsync(new CompanyEntity { CompanyName = request.Name });
 
+        // Get all companies
         public async Task<List<CompanyEntity>> GetCompaniesAsync() =>
             await companyRepository.GetAllAsync();
 
+        // Update the company details
         public async Task<CompanyEntity> UpdateCompanyAsync(int id, CompanyDTO request)
         {
             var existingCompany = await companyRepository.GetByIdAsync(id) ??
@@ -30,9 +33,11 @@ namespace Services
 
             existingCompany.CompanyName = request.Name;
 
+            // Save the updated company
             return await companyRepository.UpdateAsync(existingCompany);
         }
 
+        // Delete a company by id
         public async Task DeleteCompanyAsync(int id)
         {
             var companyToDelete = await companyRepository.GetByIdAsync(id);

@@ -11,8 +11,8 @@ namespace Services
     public class ContactService : IContactService
     {
         private readonly IContactRepository contactRepository;
-        private readonly ICompanyRepository companyRepository;
-        private readonly ICountryRepository countryRepository;
+        private readonly ICompanyRepository companyRepository; // Assuming you may need it to check for existing companies
+        private readonly ICountryRepository countryRepository; // Assuming you may need it to check for existing countries
 
         public ContactService(IContactRepository contactRepository, ICompanyRepository companyRepository, ICountryRepository countryRepository)
         {
@@ -37,11 +37,14 @@ namespace Services
             return await contactRepository.CreateAsync(contact);
         }
 
+        // Get all contacts
         public async Task<List<ContactEntity>> GetContactsAsync() =>
             await contactRepository.GetAllAsync();
 
+        // Update a contact by id
         public async Task<ContactEntity> UpdateContactAsync(int id, ContactDTO request)
         {
+            // Find the existing contact by id
             var existingContact = await contactRepository.GetByIdAsync(id) ??
                 throw new Exception("Contact does not exist.");
 
@@ -49,13 +52,16 @@ namespace Services
                 await countryRepository.GetByIdAsync(request.CountryId) == null)
                 throw new Exception("Company or Country does not exist.");
 
+            // Update the contact details
             existingContact.ContactName = request.ContactName;
             existingContact.CompanyId = request.CompanyId;
             existingContact.CountryId = request.CountryId;
 
+            // Save the updated contact
             return await contactRepository.UpdateAsync(existingContact);
         }
 
+        // Delete a contact by id
         public async Task DeleteContactAsync(int id)
         {
             var contactToDelete = await contactRepository.GetByIdAsync(id);
