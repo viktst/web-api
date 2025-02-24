@@ -1,11 +1,73 @@
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# JustCode is a .NET coding add-in
+.JustCode
+
+# Visual Studio code coverage results
+*.coverage
+*.coveragexml
+
+# DNX
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# NUNIT
+*.VisualState.xml
+TestResult.xml
+
 .vs/
-.vscode/
-.idea/
+#wwwroot/
 
-Thumbs.db
-ehthumbs.db
+# VS Code files for those working on multiple tools
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
-bin/
-obj/
+# Local History for Visual Studio Code
+.history/
 
-.vscode/
+# Windows Installer files from build outputs
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
