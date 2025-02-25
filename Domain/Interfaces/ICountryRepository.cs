@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface ICountryRepository : IBaseRepository<CountryEntity>
     {
-
+        public Task<Dictionary<string, int>> GetCompanyStatisticsByCountryId(int countryId);
     }
 }

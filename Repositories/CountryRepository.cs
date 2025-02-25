@@ -11,41 +11,28 @@ namespace Repositories
 {
     public class CountryRepository : BaseRepository<CountryEntity>, ICountryRepository
     {
+        private readonly ApplicationDbContext _applicationDbContext;
+
         public CountryRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
+            _applicationDbContext = applicationDbContext;
         }
 
-        //these methods are if we dont use generic repository
-        //public async Task<CountryEntity> Create(CountryEntity Country)
-        //{
-        //    await applicationDbContext.Set<CountryEntity>().AddAsync(Country);
+        public async Task<Dictionary<string, int>> GetCompanyStatisticsByCountryId(int countryId)
+        {
+            var companyStatistics = await _applicationDbContext.Contacts
+                .Where(c => c.CountryId == countryId)
+                .GroupBy(c => c.CompanyId)
+                .Select(group => new
+                {
+                    CompanyName = group.FirstOrDefault()!.Company.CompanyName, // Get the company name
+                    ContactCount = group.Count() // Count the contacts for this company
+                })
+                .ToListAsync();
 
-        //    await applicationDbContext.SaveChangesAsync();
+            var result = companyStatistics.ToDictionary(stat => stat.CompanyName, stat => stat.ContactCount);
 
-        //    return Country;
-        //}
-
-        //public async Task<List<CountryEntity>> GetAll()
-        //{
-        //    return await applicationDbContext.Set<CountryEntity>().ToListAsync();
-        //}
-
-        //public async Task<CountryEntity> Update(CountryEntity Country)
-        //{
-        //    var existingCountry = await applicationDbContext.Set<CountryEntity>().FindAsync(Country.Id);
-
-        //    if (existingCountry == null)
-        //    {
-        //        return null; 
-        //    }
-
-        //    existingCountry.CountryName = Country.CountryName;
-
-        //    applicationDbContext.Set<CountryEntity>().Update(existingCountry);
-        //    await applicationDbContext.SaveChangesAsync();
-
-        //    return existingCountry;
-        //}
-
+            return result;
+        }
     }
 }

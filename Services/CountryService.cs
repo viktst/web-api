@@ -4,8 +4,6 @@ using Domain.Models.Requests;
 using Domain.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
@@ -29,15 +27,16 @@ namespace Services
                 throw new Exception("Not exists");
 
             existingCountry.CountryName = request.Name;
-
             return await countryRepository.UpdateAsync(existingCountry);
         }
 
         public async Task DeleteCountryAsync(int id)
         {
-            var countryToDelete = await countryRepository.GetByIdAsync(id);
-            if (countryToDelete != null)
+            if (await countryRepository.GetByIdAsync(id) != null)
                 await countryRepository.DeleteAsync(id);
         }
+
+        public async Task<Dictionary<string, int>> GetCompanyStatisticsByCountryId(int countryId) =>
+            await countryRepository.GetCompanyStatisticsByCountryId(countryId);
     }
 }
